@@ -80,7 +80,7 @@ export const useRestApi = (initialData, headers) => {
         }
     }
 
-    async function putData(url, headers, values) {
+    async function putData(url, values) {
         dispatch({type: "FETCH_INIT"});
         try {
             let response = await fetch(url, {
@@ -101,7 +101,7 @@ export const useRestApi = (initialData, headers) => {
         }
     }
 
-    async function deleteData(url, headers) {
+    async function deleteData(url) {
         dispatch({type: "FETCH_INIT"});
         try {
             let response = await fetch(url, {
@@ -121,7 +121,7 @@ export const useRestApi = (initialData, headers) => {
         }
     }
 
-    async function getData(url, headers) {
+    async function getData(url) {
         dispatch({type: "FETCH_INIT"});
         try {
             const response = await fetch(url, {
