@@ -1,4 +1,7 @@
-import {useMemo, useReducer} from "react";
+import * as React from 'react';
+
+
+
 const dataFetchReducer = (state, action) => {
     switch (action.type) {
         case "FETCH_INIT":
@@ -52,7 +55,7 @@ const dataFetchReducer = (state, action) => {
 export const useRestApi = (initialData) => {
 
 
-    const [state, dispatch] = useReducer(dataFetchReducer, {
+    const [state, dispatch] = React.useReducer(dataFetchReducer, {
         isLoading: true,
         isError: false,
         data: initialData,
@@ -139,7 +142,7 @@ export const useRestApi = (initialData) => {
     }
 
 
-    const api = useMemo(() => ({
+    const api = React.useMemo(() => ({
         putData, deleteData, postData, getData
     }), [putData, deleteData, postData, getData]);
 
