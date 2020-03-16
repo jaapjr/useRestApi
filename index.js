@@ -1,5 +1,5 @@
+'use strict';
 import {useMemo, useReducer} from "react";
-
 
 const dataFetchReducer = (state, action) => {
     switch (action.type) {
