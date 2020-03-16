@@ -1,6 +1,6 @@
 {
   "name": "use-rest-api",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "custom rest api hook for react",
   "main": "index.js",
   "scripts": {
