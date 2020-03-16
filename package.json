@@ -1,16 +1,16 @@
 {
   "name": "use-rest-api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "custom rest api hook for react",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "react": "^16.8.0"
+    "react": "^16.12.0"
   },
   "devDependencies": {
-    "react": "^16.8.6"
+    "react": "^16.12.0"
   },
   "author": "Jaapjr93",
   "license": "MIT"

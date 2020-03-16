@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 
-
 const dataFetchReducer = (state, action) => {
     switch (action.type) {
         case "FETCH_INIT":
@@ -52,9 +51,7 @@ const dataFetchReducer = (state, action) => {
     }
 };
 
-export const useRestApi = (initialData) => {
-
-
+export const useRestApi = (initialData, headers) => {
     const [state, dispatch] = React.useReducer(dataFetchReducer, {
         isLoading: true,
         isError: false,
@@ -62,13 +59,12 @@ export const useRestApi = (initialData) => {
         error: null
     });
 
-
     async function postData(url, values) {
         dispatch({type: "FETCH_INIT"});
         try {
             let response = await fetch(url, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: headers,
                 body: JSON.stringify(values),
             });
 
@@ -84,12 +80,12 @@ export const useRestApi = (initialData) => {
         }
     }
 
-    async function putData(url, values) {
+    async function putData(url, headers, values) {
         dispatch({type: "FETCH_INIT"});
         try {
             let response = await fetch(url, {
                 method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
+                headers: headers,
                 body: JSON.stringify(values),
             });
 
@@ -105,11 +101,12 @@ export const useRestApi = (initialData) => {
         }
     }
 
-    async function deleteData(url) {
+    async function deleteData(url, headers) {
         dispatch({type: "FETCH_INIT"});
         try {
             let response = await fetch(url, {
                 method: 'DELETE',
+                headers: headers
             });
 
             const result = await response.json();
@@ -124,10 +121,13 @@ export const useRestApi = (initialData) => {
         }
     }
 
-    async function getData(url) {
+    async function getData(url, headers) {
         dispatch({type: "FETCH_INIT"});
         try {
-            const response = await fetch(url, {});
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: headers
+            });
 
             const result = await response.json();
             if (!response.ok) {
