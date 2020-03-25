@@ -45,6 +45,15 @@ const dataFetchReducer = (state, action) => {
                 isError: true,
                 data: [...state.data, action.payload]
             };
+        case "ADD_LIST_DATA":
+            let newData = state.data.concat(action.payload)
+
+            return {
+                ...state,
+                isLoading: false,
+                isError: true,
+                data: newData
+            };
 
         default:
             throw new Error();
@@ -59,7 +68,7 @@ export const useRestApi = (initialData, headers) => {
         error: null
     });
 
-    async function postData(url, values) {
+    async function postData(url, values, useList) {
         dispatch({type: "FETCH_INIT"});
         try {
             let response = await fetch(url, {
@@ -73,7 +82,12 @@ export const useRestApi = (initialData, headers) => {
                 throw new Error("Network response was not ok.");
             }
 
-            dispatch({type: "ADD_DATA", payload: result.Data});
+            if (useList) {
+                dispatch({type: "ADD_LIST_DATA", payload: result.Data});
+            } else {
+                dispatch({type: "ADD_DATA", payload: result.Data});
+            }
+
         } catch (error) {
             console.log("There has been a problem with your fetch operation: ", error.message);
             dispatch({type: "FETCH_FAILURE", payload: error.message});
