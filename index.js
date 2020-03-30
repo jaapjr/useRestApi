@@ -74,7 +74,7 @@ export const useRestApi = (initialData, headers) => {
             let response = await fetch(url, {
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify(values),
+                body: values,
             });
 
             const result = await response.json();
@@ -100,7 +100,7 @@ export const useRestApi = (initialData, headers) => {
             let response = await fetch(url, {
                 method: 'PUT',
                 headers: headers,
-                body: JSON.stringify(values),
+                body: values,
             });
 
             const result = await response.json();
