@@ -68,12 +68,12 @@ export const useRestApi = (initialData, headers) => {
         error: null
     });
 
-    async function postData(url, values, useList) {
+    async function postData(url, contentType, values, useList) {
         dispatch({type: "FETCH_INIT"});
         try {
             let response = await fetch(url, {
                 method: 'POST',
-                headers: headers,
+                headers: {...headers,'Content-Type':contentType},
                 body: values,
             });
 
@@ -94,12 +94,12 @@ export const useRestApi = (initialData, headers) => {
         }
     }
 
-    async function putData(url, values) {
+    async function putData(url, contentType, values) {
         dispatch({type: "FETCH_INIT"});
         try {
             let response = await fetch(url, {
                 method: 'PUT',
-                headers: headers,
+                headers: {...headers,'Content-Type':contentType},
                 body: values,
             });
 
@@ -120,7 +120,7 @@ export const useRestApi = (initialData, headers) => {
         try {
             let response = await fetch(url, {
                 method: 'DELETE',
-                headers: headers
+                headers: {...headers, 'Content-Type': 'application/json'}
             });
 
             const result = await response.json();
@@ -140,7 +140,7 @@ export const useRestApi = (initialData, headers) => {
         try {
             const response = await fetch(url, {
                 method: 'GET',
-                headers: headers
+                headers: {...headers,'Content-Type':'application/json'}
             });
 
             const result = await response.json();
