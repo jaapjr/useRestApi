@@ -68,12 +68,15 @@ export const useRestApi = (initialData, headers) => {
         error: null
     });
 
-    async function postData(url, contentType, values, useList) {
+    async function postData(url, contentType,values, useList) {
         dispatch({type: "FETCH_INIT"});
         try {
+            if(contentType){
+                headers = {...headers,'Content-Type':contentType}
+            }
             let response = await fetch(url, {
                 method: 'POST',
-                headers: {...headers,'Content-Type':contentType},
+                headers: headers,
                 body: values,
             });
 
@@ -97,9 +100,12 @@ export const useRestApi = (initialData, headers) => {
     async function putData(url, contentType, values) {
         dispatch({type: "FETCH_INIT"});
         try {
+            if(contentType){
+                headers = {...headers,'Content-Type':contentType}
+            }
             let response = await fetch(url, {
                 method: 'PUT',
-                headers: {...headers,'Content-Type':contentType},
+                headers: headers,
                 body: values,
             });
 
