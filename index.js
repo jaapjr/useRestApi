@@ -24,12 +24,19 @@ const dataFetchReducer = (state, action) => {
                 data: [],
                 message: action.payload
             };
-        case "UPDATE_DATA":
+        case "UPDATE_LIST_DATA":
             return {
                 ...state,
                 isLoading: false,
                 isError: true,
                 data: state.data.map(d => d.id === action.payload.id ? {...d, ...action.payload} : d)
+            };
+        case "UPDATE_DATA":
+            return {
+                ...state,
+                isLoading: false,
+                isError: true,
+                data: action.payload
             };
         case "DELETE_DATA":
             return {
@@ -68,11 +75,11 @@ export const useRestApi = (initialData, headers) => {
         error: null
     });
 
-    async function postData(url, contentType,values, useList) {
+    async function postData(url, contentType, values, useList) {
         dispatch({type: "FETCH_INIT"});
         try {
-            if(contentType){
-                headers = {...headers,'Content-Type':contentType}
+            if (contentType) {
+                headers = {...headers, 'Content-Type': contentType}
             }
             let response = await fetch(url, {
                 method: 'POST',
@@ -97,11 +104,11 @@ export const useRestApi = (initialData, headers) => {
         }
     }
 
-    async function putData(url, contentType, values) {
+    async function putData(url, contentType, values, useList) {
         dispatch({type: "FETCH_INIT"});
         try {
-            if(contentType){
-                headers = {...headers,'Content-Type':contentType}
+            if (contentType) {
+                headers = {...headers, 'Content-Type': contentType}
             }
             let response = await fetch(url, {
                 method: 'PUT',
@@ -113,8 +120,12 @@ export const useRestApi = (initialData, headers) => {
             if (!response.ok) {
                 throw new Error("Network response was not ok.");
             }
+            if (useList === true) {
+                dispatch({type: "UPDATE_LIST_DATA", payload: result.Data});
+            } else {
+                dispatch({type: "UPDATE_DATA", payload: result.Data});
+            }
 
-            dispatch({type: "UPDATE_DATA", payload: result.Data});
         } catch (error) {
             console.log("There has been a problem with your fetch operation: ", error.message);
             dispatch({type: "FETCH_FAILURE", payload: error.message});
@@ -146,7 +157,7 @@ export const useRestApi = (initialData, headers) => {
         try {
             const response = await fetch(url, {
                 method: 'GET',
-                headers: {...headers,'Content-Type':'application/json'}
+                headers: {...headers, 'Content-Type': 'application/json'}
             });
 
             const result = await response.json();
