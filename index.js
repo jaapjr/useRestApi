@@ -28,28 +28,28 @@ const dataFetchReducer = (state, action) => {
             return {
                 ...state,
                 isLoading: false,
-                isError: true,
+                isError: false,
                 data: state.data.map(d => d.id === action.payload.id ? {...d, ...action.payload} : d)
             };
         case "UPDATE_DATA":
             return {
                 ...state,
                 isLoading: false,
-                isError: true,
+                isError: false,
                 data: action.payload
             };
         case "DELETE_DATA":
             return {
                 ...state,
                 isLoading: false,
-                isError: true,
+                isError: false,
                 data: state.data.filter((obj) => obj[action.identifier] !== action.payload)
             };
         case "ADD_DATA":
             return {
                 ...state,
                 isLoading: false,
-                isError: true,
+                isError: false,
                 data: [...state.data, action.payload]
             };
         case "ADD_LIST_DATA":
@@ -58,7 +58,7 @@ const dataFetchReducer = (state, action) => {
             return {
                 ...state,
                 isLoading: false,
-                isError: true,
+                isError: false,
                 data: newData
             };
 
