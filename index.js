@@ -43,7 +43,7 @@ const dataFetchReducer = (state, action) => {
                 ...state,
                 isLoading: false,
                 isError: true,
-                data: state.data.filter((obj) => obj !== action.payload)
+                data: state.data.filter((obj) => obj[action.identifier] !== action.payload)
             };
         case "ADD_DATA":
             return {
@@ -132,7 +132,7 @@ export const useRestApi = (initialData, headers) => {
         }
     }
 
-    async function deleteData(url) {
+    async function deleteData(url, identifier) {
         dispatch({type: "FETCH_INIT"});
         try {
             let response = await fetch(url, {
@@ -145,7 +145,7 @@ export const useRestApi = (initialData, headers) => {
                 throw new Error("Network response was not ok.");
             }
 
-            dispatch({type: "DELETE_DATA", payload: result.Data});
+            dispatch({type: "DELETE_DATA", payload: result.Data, identifier: identifier});
         } catch (error) {
             console.log("There has been a problem with your fetch operation: ", error.message);
             dispatch({type: "FETCH_FAILURE", payload: error.message});
