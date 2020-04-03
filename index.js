@@ -121,9 +121,9 @@ export const useRestApi = (initialData, headers) => {
                 throw new Error("Network response was not ok.");
             }
 
-            if (response.status_code === 200) {
+            if (response.status === 200) {
                 dispatch({type: 'ADD_DATA', payload: result.Data})
-            } else if (response.status_code === 201) {
+            } else if (response.status === 201) {
                 if (Array.isArray(result.Data)){
                     dispatch({type: "UPDATE_LIST_DATA", payload: result.Data});
                 } else {
