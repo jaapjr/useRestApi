@@ -104,7 +104,7 @@ export const useRestApi = (initialData, headers) => {
         }
     }
 
-    async function putData(url, contentType, values, useList) {
+    async function putData(url, contentType, values) {
         dispatch({type: "FETCH_INIT"});
         try {
             if (contentType) {
@@ -120,11 +120,19 @@ export const useRestApi = (initialData, headers) => {
             if (!response.ok) {
                 throw new Error("Network response was not ok.");
             }
-            if (useList === true) {
-                dispatch({type: "UPDATE_LIST_DATA", payload: result.Data});
+
+            if (response.status_code === 200) {
+                dispatch({type: 'ADD_DATA', payload: result.Data})
+            } else if (response.status_code === 201) {
+                if (Array.isArray(result.Data)){
+                    dispatch({type: "UPDATE_LIST_DATA", payload: result.Data});
+                } else {
+                    dispatch({type: "UPDATE_DATA", payload: result.Data});
+                }
             } else {
-                dispatch({type: "UPDATE_DATA", payload: result.Data});
+                throw new Error("Status Code not recognized.");
             }
+
 
         } catch (error) {
             console.log("There has been a problem with your fetch operation: ", error.message);
