@@ -104,7 +104,7 @@ export const useRestApi = (initialData, headers) => {
         }
     }
 
-    async function putData(url, contentType, values) {
+    async function putData(url, contentType, values,useList) {
         dispatch({type: "FETCH_INIT"});
         try {
             if (contentType) {
@@ -124,7 +124,7 @@ export const useRestApi = (initialData, headers) => {
             if (response.status === 200) {
                 dispatch({type: 'ADD_DATA', payload: result.Data})
             } else if (response.status === 201) {
-                if (Array.isArray(result.Data)){
+                if (useList){
                     dispatch({type: "UPDATE_LIST_DATA", payload: result.Data});
                 } else {
                     dispatch({type: "UPDATE_DATA", payload: result.Data});
